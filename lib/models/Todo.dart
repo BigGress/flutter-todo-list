@@ -12,4 +12,11 @@ class Todo {
     this.title = title;
     this.finish = finish;
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": this.title,
+      "finish": this.finish == FinishStatus.doing ? 1 : 0
+    };
+  }
 }

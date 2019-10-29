@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_list/pages/editor.dart';
+import 'package:todo_list/service/localFile.dart';
 
 import '../models/Todo.dart';
 
@@ -54,10 +55,12 @@ class TodoListState extends State<TodoListWidget> {
         if (status == FinishStatus.doing) {
           this.setState(() {
             todo.finish = FinishStatus.doing;
+            writeTodo(this.widget.list);
           });
         } else if (status == FinishStatus.done) {
           this.setState(() {
             todo.finish = FinishStatus.done;
+            writeTodo(this.widget.list);
           });
         } else {
           final text = await Navigator.push(context, MaterialPageRoute(
@@ -66,6 +69,7 @@ class TodoListState extends State<TodoListWidget> {
 
           this.setState(() {
             todo.title = text;
+            writeTodo(this.widget.list);
           });
         }
       },

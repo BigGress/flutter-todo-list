@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/pages/editor.dart';
+import 'package:todo_list/service/localFile.dart';
 
 import './pages/list.dart';
 import './models/Todo.dart';
@@ -77,12 +78,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   FinishStatus activeStatus;
 
-  List<Todo> list = [
-    new Todo(title: '测试1', finish:  FinishStatus.doing),
-    new Todo(title: '测试2', finish:  FinishStatus.done),
-    new Todo(title: '测试3'),
-    new Todo(title: '测试4', finish:  FinishStatus.done),
-  ];
+  List<Todo> list = [];
+
+  @override
+  void initState() { 
+    super.initState();
+    // final todos = readTodo();
+    readTodo().then((data) {
+      this.setState(() {
+        this.list = data ?? [];
+      });
+    });
+  }
 
   void _incrementCounter() async {
     String todoData = await Navigator.push(context, MaterialPageRoute(
@@ -104,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
         this.list.add(todo);
         // this.list = newList;
         print(this.list);
+        writeTodo(this.list);
       });
     }
 
